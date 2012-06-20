@@ -16,7 +16,9 @@ class BlockFetcher:
 
     # (x, y) The position measure by opening tetrix_battle in chrome
     # put the window to left-hand-side and scroll to top
-    CANDIDATE_POINT = ( 342, 514 )
+
+    # at home
+    # CANDIDATE_POINT = ( 342, 514 )
     BLOCK_N = ( 254, 65, 104)
     BLOCK_I = ( 44, 200, 249)
     BLOCK_L = ( 255, 140, 48)
@@ -25,7 +27,10 @@ class BlockFetcher:
     BLOCK_T = ( 219, 80, 184)
     BLOCK_S = ( 134, 221, 41)
 
-
+    # at work
+    CANDIDATE_POINT = ( 338, 525 )
+    BLOCK_I = ( 60, 152, 171)
+    BLOCK_O = ( 204, 165, 65)
 
     # error tolerant
     ERROR = 3

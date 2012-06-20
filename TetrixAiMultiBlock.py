@@ -4,7 +4,7 @@ from Util import *
 
 class TetrixAiMultiBlock:
     def __init__( self ):
-        self.defaultPara = ( -1, -1, 0.5, -1, 0, 3 )
+        self.defaultPara = [   -4.316,   -1.935,    7.648,   -3.987,   -0.733,    9.018]
         self.userPara = None
         pass
 
@@ -208,6 +208,6 @@ def test():
     print "Combo:" + str(totalCombo)
 
 if __name__ == '__main__':
-    algo = GeneAlgo( 32 )
-    algo.run( 10000 )
-    #test()
+    #algo = GeneAlgo( 32 )
+    #algo.run( 10000 )
+    test()

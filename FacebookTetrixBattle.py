@@ -2,6 +2,7 @@ import time
 from BlockFetcher import *
 from TetrixObject import *
 from TetrixAi import *
+from TetrixAiMultiBlock import *
 from KeyBoardSimulator import *
 
 class FacebookTetrixBattle:
@@ -49,6 +50,27 @@ class FacebookTetrixBattle:
             print " Got Block: " + blockGotName
 
     @staticmethod
+    def playWithMultiBlockAi():
+        tetrixContainer = TetrixContainer()
+        tetrixContainer.printContainer()
+        ai = TetrixAiMultiBlock()
+
+        blockfetch = BlockFetcher()
+        time.sleep(3)
+        curBlockName = blockfetch.getBlockName()
+        KeyBoardSimulator().HoldBlock()
+        print "-------- Start --------"
+        while ( True ):
+            nextBlockName = blockfetch.getBlockName()
+            print " Current Block: " + curBlockName + "\tNext Block: " + nextBlockName
+            (blockMovement, score) = ai.getBlockQueueMovementAndScore( tetrixContainer, [TetrixBlock( curBlockName ), TetrixBlock( nextBlockName )] )
+            tetrixContainer.putBlockInContainer( blockMovement[0].getPutPos() )
+            FacebookTetrixBattle.sendMoveCmd( blockMovement[0] )
+            curBlockName = nextBlockName
+            time.sleep( 0.03 )
+            print "-------------------------"
+
+    @staticmethod
     def delayNextBlock( container ):
         if container.lastLineClearCount != 0:
             time.sleep( 0.11 )
@@ -84,5 +106,6 @@ if __name__ == '__main__':
     for key, value in FacebookTetrixBattle.hDelta.iteritems():
         print key, value
 
-    FacebookTetrixBattle.playWithAi()
+    #FacebookTetrixBattle.playWithAi()
+    FacebookTetrixBattle.playWithMultiBlockAi()
 
