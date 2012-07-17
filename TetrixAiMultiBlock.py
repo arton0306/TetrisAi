@@ -33,9 +33,11 @@ class TetrixAiMultiBlock:
                         containerAfterPut.putBlockInContainer( putState.getPos() )
                         ( restMove, restScore ) = self.getBlockQueueMovementAndScore( containerAfterPut, tetrixBlockQueue[1:] )
                         if restScore == None:
-                            scoreAtThisPut = self.getScore( containerOrigin, containerAfterPut )
+                            scoreAtThisPut = self.getScore( containerOrigin, containerAfterPut, True )
+                        elif len( tetrixBlockQueue[1:] ) == 0:
+                            scoreAtThisPut = self.getScore( containerOrigin, containerAfterPut, True ) + restScore
                         else:
-                            scoreAtThisPut = self.getScore( containerOrigin, containerAfterPut ) + restScore
+                            scoreAtThisPut = self.getScore( containerOrigin, containerAfterPut, False ) + restScore
                         if scoreAtThisPut > maxScore:
                             firstBlockMove.setRotationCount( aDirection )
                             firstBlockMove.setHorizontalDelta( hDelta )
@@ -47,13 +49,15 @@ class TetrixAiMultiBlock:
             else:
                 return ( [], None )
 
-    def getScore( self, containerOrigin, containerAfterPut ):
+    # the score return is always >= 0
+    def getScore( self, containerOrigin, containerAfterPut, isLastBlock ):
         if ( self.userPara == None ):
             para = self.defaultPara
         else:
             para = self.userPara
 
-        score = 0
+        # make sure result score >= 0
+        score = 1000000
 
         # reverse for convenience
         topFilledGrid = [( containerAfterPut.getRowCount() - r ) for r in containerAfterPut.topFilledGridLine]
@@ -75,6 +79,8 @@ class TetrixAiMultiBlock:
 
         # combo
         score += containerAfterPut.combo * para[5]
+
+        # assert(score) >= 0
 
         return score
 
@@ -188,12 +194,12 @@ def test():
 
     # produce block sequence
     inputBlock = []
-    for i in xrange( 1200 ):
+    for i in xrange( 12000 ):
         inputBlock.append( TetrixBlock.getRandBlock() )
 
     # play!
     totalCombo = 0
-    for i in xrange( 1199 ):
+    for i in xrange( 11999 ):
         print "-------------------------"
         print " Got Block: " + inputBlock[i].getBlockName() + "\t Next Block: " + inputBlock[i + 1].getBlockName()
         (blockMovement, score) = ai.getBlockQueueMovementAndScore( tetrixContainer, inputBlock[i:i+2] )
