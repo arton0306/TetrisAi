@@ -4,7 +4,8 @@ from Util import *
 
 class TetrixAiMultiBlock:
     def __init__( self ):
-        self.defaultPara = [   -4.316,   -1.935,    7.648,   -3.987,   -0.733,    9.018]
+        self.defaultPara = [-75.7014380917982, -61.313501642047925, 11.280082197976206, 70, -150.72589775573758, 120.66828636891036, -186.52951417386484, -154.82119481161956]
+        #self.defaultPara = [-10, -3, 10, 80, -0.1, 10, -3, 0]
         self.userPara = None
         pass
 
@@ -57,30 +58,34 @@ class TetrixAiMultiBlock:
             para = self.userPara
 
         # make sure result score >= 0
-        score = 1000000
+        score = 1000000000
 
         # reverse for convenience
         topFilledGrid = [( containerAfterPut.getRowCount() - r ) for r in containerAfterPut.topFilledGridLine]
 
         # hole
-        score += containerAfterPut.holeCount * para[0]
+        score += containerAfterPut.holeCount ** 2 * para[0]
 
         # blockade
-        score += containerAfterPut.blockadeCount * para[1]
+        score += containerAfterPut.blockadeCount ** 2 * para[1]
 
         # clear line
         score += containerAfterPut.lastLineClearCount * para[2]
 
-        # gap
-        score += sum( getGap( topFilledGrid ) ) * para[3]
-
         # prepare for combo
-        score += sum( topFilledGrid ) * para[4]
+        score += ( ( sum( topFilledGrid ) - containerAfterPut.holeCount - para[3] ) / 10.0 ) ** 2 * para[4]
 
         # combo
-        score += containerAfterPut.combo * para[5]
+        score += containerAfterPut.combo ** 4 * para[5]
 
-        # assert(score) >= 0
+        # gap
+        score += sum( sorted( getGap( topFilledGrid ) )[:-1] ) ** 2 * para[6]
+
+        # last block's combo
+        if isLastBlock:
+            score += containerAfterPut.combo ** 2 * para[7]
+
+        assert score >= 0
 
         return score
 
@@ -96,18 +101,24 @@ class GeneAlgo:
         self.geneCount = len( TetrixAiMultiBlock().defaultPara )
         self.randScope = 10
         self.currentChromosome = [ [random.uniform(-self.randScope,self.randScope) for i in xrange(self.geneCount)] for j in xrange(self.population) ]
+        for aChromosome in self.currentChromosome:
+            aChromosome[3] = 60
+            self.fitPhysicalRange( aChromosome )
         #self.geneFitness = [ self.fitness( self.currentChromosome[i] ) for i in xrange(self.population) ]
 
         # for debug
         self.fitnessCount = 0
 
-    def fitness( self, gene ):
+    def fitness( self, aChromosome ):
         self.fitnessCount += 1
-        print str( self.fitnessCount ) + " calc fitness of " + str(gene)
-        blockCount = 1000
+        print str( self.fitnessCount ) + " calc fitness of [ ",
+        for gene in aChromosome:
+            print "%7.3f, " % (float(gene)),
+        print " ]"
+        blockCount = 2000
         tetrixContainer = TetrixContainer()
         ai = TetrixAiMultiBlock()
-        ai.userPara = gene
+        ai.userPara = aChromosome
 
         # produce block sequence
         inputBlock = []
@@ -123,7 +134,7 @@ class GeneAlgo:
                 totalCombo += tetrixContainer.combo
             else:
                 break
-        print "#block:%5d totalcombo:%5d" % (i, totalCombo )
+        print "#block:%5d totalcombo:%5d ratio:%5.3f" % (i, totalCombo, float(totalCombo)/i )
         return Fitness( i, totalCombo )
 
     def run( self, generationCount ):
@@ -167,9 +178,11 @@ class GeneAlgo:
                 while ( random.random() < 0.65 ):
                     randomGeneIdx = random.randint( 0, self.geneCount - 1 )
                     child[randomGeneIdx] += random.uniform( -self.randScope / 20, self.randScope / 20)
-                while ( random.random() < 0.15 ):
+                while ( random.random() < 0.30 ):
                     randomGeneIdx = random.randint( 0, self.geneCount - 1 )
                     child[randomGeneIdx] = random.uniform( -self.randScope, self.randScope )
+                # fit to physical range
+                self.fitPhysicalRange( child )
                 nextGeneration.append( child )
 
         self.currentChromosome = nextGeneration + winnerChromosome
@@ -182,10 +195,20 @@ class GeneAlgo:
             f.write( "[" )
             for gene in chromosome:
                 f.write( "%9.3f," % gene )
-            f.write( "]    #combo:%5d #block:%5d" % ( self.geneFitness[cn].combo, self.geneFitness[cn].blockCount ) )
+            f.write( "]    #combo:%5d #block:%5d ratio:%5.3f" % ( self.geneFitness[cn].combo, self.geneFitness[cn].blockCount, float(self.geneFitness[cn].combo)/self.geneFitness[cn].blockCount ) )
             f.write( "\n" )
             cn += 1
         f.close()
+
+    def fitPhysicalRange(self, aChromosome):
+        aChromosome[0] = -abs( aChromosome[0] )
+        aChromosome[1] = -abs( aChromosome[1] )
+        aChromosome[3] = abs( aChromosome[3] )
+        aChromosome[3] = max( 30, aChromosome[3] )
+        aChromosome[4] = -abs( aChromosome[4] )
+        aChromosome[5] = abs( aChromosome[5] )
+        aChromosome[6] = -abs( aChromosome[6] )
+        aChromosome[7] = abs( aChromosome[7] )
 
 def test():
     tetrixContainer = TetrixContainer()
@@ -214,6 +237,9 @@ def test():
     print "Combo:" + str(totalCombo)
 
 if __name__ == '__main__':
-    #algo = GeneAlgo( 32 )
-    #algo.run( 10000 )
-    test()
+    isRunGA = True
+    if isRunGA:
+        algo = GeneAlgo( 32 )
+        algo.run( 10000 )
+    else:
+        test()
