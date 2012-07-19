@@ -95,18 +95,20 @@ class Fitness:
         self.combo = combo
 
 class GeneAlgo:
-    def __init__( self, population ):
-        self.generationNum = 1
+    def __init__( self, population, aStartGenerationNum = 1, aChoromosomePool = [] ):
+        self.generationNum = aStartGenerationNum
         self.population = population # should be 4x
         self.geneCount = len( TetrixAiMultiBlock().defaultPara )
-        self.randScope = 10
-        self.currentChromosome = [ [random.uniform(-self.randScope,self.randScope) for i in xrange(self.geneCount)] for j in xrange(self.population) ]
-        for aChromosome in self.currentChromosome:
-            aChromosome[3] = 60
-            self.fitPhysicalRange( aChromosome )
-        #self.geneFitness = [ self.fitness( self.currentChromosome[i] ) for i in xrange(self.population) ]
+        self.randScopeMin = [ 0,  0,  0, 30,  0,  0,  0,  0]
+        self.randScopeMax = [10, 10, 10, 70, 10, 10, 10, 10]
+        if aChoromosomePool == []:
+            self.currentChromosome = [ [random.uniform( self.randScopeMin[i], self.randScopeMax[i] ) for i in xrange(self.geneCount)] for j in xrange(self.population) ]
+            for aChromosome in self.currentChromosome:
+                self.fitPhysicalRange( aChromosome )
+        else:
+            self.currentChromosome = aChoromosomePool
 
-        # for debug
+        # for print
         self.fitnessCount = 0
 
     def fitness( self, aChromosome ):
@@ -115,7 +117,7 @@ class GeneAlgo:
         for gene in aChromosome:
             print "%7.3f, " % (float(gene)),
         print " ]"
-        blockCount = 2000
+        blockCount = 2001
         tetrixContainer = TetrixContainer()
         ai = TetrixAiMultiBlock()
         ai.userPara = aChromosome
@@ -134,7 +136,8 @@ class GeneAlgo:
                 totalCombo += tetrixContainer.combo
             else:
                 break
-        print "#block:%5d totalcombo:%5d ratio:%5.3f" % (i, totalCombo, float(totalCombo)/i )
+
+        print "#block:%5d totalcombo:%5d ratio:%5.3f" % ( i, totalCombo, float(totalCombo) / i )
         return Fitness( i, totalCombo )
 
     def run( self, generationCount ):
@@ -177,10 +180,12 @@ class GeneAlgo:
                 # mutation
                 while ( random.random() < 0.65 ):
                     randomGeneIdx = random.randint( 0, self.geneCount - 1 )
-                    child[randomGeneIdx] += random.uniform( -self.randScope / 20, self.randScope / 20)
+                    phase1range = ( self.randScopeMax[randomGeneIdx] - self.randScopeMin[randomGeneIdx] ) / 20.0
+                    assert phase1range >= 0
+                    child[randomGeneIdx] += random.uniform( -phase1range, phase1range )
                 while ( random.random() < 0.30 ):
                     randomGeneIdx = random.randint( 0, self.geneCount - 1 )
-                    child[randomGeneIdx] = random.uniform( -self.randScope, self.randScope )
+                    child[randomGeneIdx] = random.uniform( self.randScopeMin[randomGeneIdx], self.randScopeMax[randomGeneIdx] )
                 # fit to physical range
                 self.fitPhysicalRange( child )
                 nextGeneration.append( child )
@@ -239,7 +244,7 @@ def test():
 if __name__ == '__main__':
     isRunGA = True
     if isRunGA:
-        algo = GeneAlgo( 32 )
+        algo = GeneAlgo( 48 )
         algo.run( 10000 )
     else:
         test()
