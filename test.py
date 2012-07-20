@@ -4,7 +4,7 @@ from Util import *
 
 class TetrixAiMultiBlock:
     def __init__( self ):
-        self.defaultPara = [-75.7014380917982, -61.313501642047925, 70, -150.72589775573758, 120.66828636891036, -186.52951417386484, -154.82119481161956]
+        self.defaultPara = [   -2.098,   -0.029,   65.659,   -6.682,    5.794,   -9.964,    9.265,]
         self.userPara = None
         pass
 
@@ -238,7 +238,7 @@ def test():
     print "Combo:" + str(totalCombo)
 
 if __name__ == '__main__':
-    isRunGA = True
+    isRunGA = False
     if isRunGA:
         algo = GeneAlgo( 48 )
         algo.run( 10000 )
