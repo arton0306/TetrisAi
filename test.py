@@ -4,7 +4,7 @@ from Util import *
 
 class TetrixAiMultiBlock:
     def __init__( self ):
-        self.defaultPara = [   -2.098,   -0.029,   65.659,   -6.682,    5.794,   -9.964,    9.265,]
+        self.defaultPara = [   -1.281,   -0.005,   72.366,   -2.857,   10.209,  -14.392,   13.596,]
         self.userPara = None
         pass
 

@@ -92,17 +92,19 @@ class Fitness:
 
 class GeneAlgo:
     def __init__( self, population, aStartGenerationNum = 1, aChoromosomePool = [] ):
+        assert population % 4 == 0
+        assert len(aChoromosomePool) <= population
         self.generationNum = aStartGenerationNum
         self.population = population # should be 4x
         self.geneCount = len( TetrixAiMultiBlock().defaultPara )
-        self.randScopeMin = [ 0,  0, 30,  0,  0,  0,  0]
-        self.randScopeMax = [10, 10, 70, 10, 10, 10, 10]
+        self.randScopeMin = [-5, -1, 30,-10,  0,-20,  0]
+        self.randScopeMax = [ 5,0.4, 99,  0, 20,  0, 20]
+
+        # 1st generation ancestor
         if aChoromosomePool == []:
             self.currentChromosome = [ [random.uniform( self.randScopeMin[i], self.randScopeMax[i] ) for i in xrange(self.geneCount)] for j in xrange(self.population) ]
-            for aChromosome in self.currentChromosome:
-                self.fitPhysicalRange( aChromosome )
         else:
-            self.currentChromosome = aChoromosomePool
+            self.currentChromosome = aChoromosomePool + [ [random.uniform( self.randScopeMin[i], self.randScopeMax[i] ) for i in xrange(self.geneCount)] for j in xrange( population - len( aChoromosomePool ) ) ]
 
         # for print
         self.fitnessCount = 0
@@ -182,8 +184,6 @@ class GeneAlgo:
                 while ( random.random() < 0.30 ):
                     randomGeneIdx = random.randint( 0, self.geneCount - 1 )
                     child[randomGeneIdx] = random.uniform( self.randScopeMin[randomGeneIdx], self.randScopeMax[randomGeneIdx] )
-                # fit to physical range
-                self.fitPhysicalRange( child )
                 nextGeneration.append( child )
 
         self.currentChromosome = nextGeneration + winnerChromosome
@@ -200,16 +200,6 @@ class GeneAlgo:
             f.write( "\n" )
             cn += 1
         f.close()
-
-    def fitPhysicalRange(self, aChromosome):
-        aChromosome[0] = -abs( aChromosome[0] )
-        aChromosome[1] = -abs( aChromosome[1] )
-        aChromosome[2] = abs( aChromosome[2] )
-        aChromosome[2] = max( 30, aChromosome[2] )
-        aChromosome[3] = -abs( aChromosome[3] )
-        aChromosome[4] = abs( aChromosome[4] )
-        aChromosome[5] = -abs( aChromosome[5] )
-        aChromosome[6] = abs( aChromosome[6] )
 
 def test():
     tetrixContainer = TetrixContainer()
@@ -240,7 +230,56 @@ def test():
 if __name__ == '__main__':
     isRunGA = True
     if isRunGA:
-        algo = GeneAlgo( 48 )
+        g41 = [ [   -1.776,   -0.029,   63.771,   -1.229,    5.137,   -9.339,    9.704,],
+                [   -0.948,   -0.029,   64.941,   -3.534,    9.294,  -10.068,    9.695,],
+                [   -1.283,   -0.041,   65.158,   -3.534,    5.742,   -9.459,   10.221,],
+                [   -1.068,   -0.077,   66.167,   -1.200,    5.029,   -9.776,    9.146,],
+                [   -1.043,   -0.041,   64.183,   -3.643,    9.294,   -9.339,    9.704,],
+                [   -0.948,   -0.391,   65.299,   -3.788,    9.273,   -9.762,    9.371,],
+                [   -1.173,   -0.011,   65.158,   -5.220,    1.407,   -9.389,    9.062,],
+                [   -0.948,   -0.029,   54.603,   -3.534,    2.839,   -9.964,    8.910,],
+                [   -1.068,   -0.035,   65.158,   -3.534,    9.715,  -10.227,    9.695,],
+                [   -0.679,   -7.611,   65.158,   -5.736,    1.407,   -8.145,    9.901,],
+                [   -1.043,   -0.029,   64.941,   -3.534,    9.294,  -10.068,    9.695,],
+                [   -1.776,   -0.029,   54.603,   -1.229,    5.137,   -9.770,    9.676,],
+                [   -1.213,   -0.041,   54.603,   -3.534,    5.571,   -9.770,    9.704,],
+                [   -1.776,   -0.319,   64.183,   -1.200,    5.293,   -9.339,    8.875,],
+                [   -0.948,   -0.029,   65.659,   -3.534,    5.794,   -9.770,    9.676,],
+                [   -1.043,   -0.041,   64.183,   -3.643,    9.294,   -9.339,    9.704,],
+                [   -1.067,   -0.086,   65.055,   -3.711,    5.449,   -9.788,    9.704,],
+                [   -1.068,   -0.035,   65.158,   -6.285,    9.715,   -9.551,    9.704,],
+                [   -1.213,   -0.011,   64.941,   -3.534,    9.423,   -9.770,    9.588,],
+                [   -1.043,   -0.041,   54.603,   -3.534,    9.294,   -9.770,    9.810,],
+                [   -1.043,   -0.035,   64.941,   -6.213,    9.418,   -9.551,    9.062,],
+                [   -0.450,   -0.173,   64.202,   -4.044,    9.605,   -9.551,   10.004,],
+                [   -0.450,   -0.009,   65.158,   -3.707,    9.294,   -9.770,   10.217,],
+                [   -1.173,   -0.035,   64.941,   -6.213,    1.407,   -9.389,    9.062,],
+                [   -1.403,   -0.011,   54.603,   -3.534,    2.392,   -9.770,    9.676,],
+                [   -1.043,   -0.029,   64.941,   -3.534,    9.294,  -10.068,    9.695,],
+                [   -1.068,   -0.173,   65.158,   -3.707,    9.605,   -9.551,    9.676,],
+                [   -2.014,   -0.041,   67.284,   -3.643,    9.294,   -7.555,    7.795,],
+                [   -1.283,   -0.160,   64.183,   -3.643,    5.742,   -9.762,    9.704,],
+                [   -1.067,   -0.029,   64.941,   -3.534,    5.137,  -10.227,    9.695,],
+                [   -1.173,   -0.011,   65.158,   -4.448,    5.449,   -9.389,    9.062,],
+                [   -1.776,   -0.041,   64.183,   -3.643,    9.294,   -9.762,    9.704,],
+                [   -5.683,   -0.107,   64.941,   -6.213,    9.418,   -9.389,    9.062,],
+                [   -1.066,   -0.011,   53.446,   -3.951,    9.423,  -10.325,    9.676,],
+                [   -1.173,   -0.035,   35.108,   -6.213,    1.407,   -4.629,    9.062,],
+                [   -1.776,   -0.029,   54.603,   -3.534,    2.392,   -9.770,    9.704,],
+                [   -2.517,   -0.035,   64.941,   -6.285,    5.137,  -10.227,    9.695,],
+                [   -2.014,   -0.011,   67.284,   -3.936,    9.605,   -7.555,    9.676,],
+                [   -1.360,   -0.011,   64.941,   -3.951,    9.423,  -10.165,    9.588,],
+                [   -1.776,   -0.041,   65.299,   -3.643,    9.294,   -9.762,    9.704,],
+                [   -1.068,   -0.035,   65.158,   -6.213,    5.029,   -9.551,    8.875,],
+                [   -1.776,   -0.041,   65.158,   -3.643,    9.294,   -9.762,    9.704,],
+                [   -1.213,   -0.041,   53.446,   -3.534,    5.742,   -9.770,    9.676,],
+                [   -1.043,   -0.041,   54.603,   -3.534,    5.571,   -9.770,    9.704,],
+                [   -0.450,   -0.009,   64.202,   -3.707,    9.294,   -9.770,   10.217,],
+                [   -0.948,   -0.029,   54.603,   -3.534,    2.839,   -9.964,    8.910,],
+                [   -1.043,   -0.041,   46.963,   -3.643,    9.294,   -9.339,    9.676,],
+                [   -1.776,   -0.041,   64.183,   -1.200,    5.137,   -9.339,    9.704,], ]
+
+        algo = GeneAlgo( 64, 41, g41 )
         algo.run( 10000 )
     else:
         test()
