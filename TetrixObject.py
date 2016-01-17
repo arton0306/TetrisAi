@@ -87,7 +87,7 @@ class TetrixContainer:
                     unfilledArea += [ row ]
 
             newArea = []
-            for i in xrange( filledLineCount ):
+            for i in range( filledLineCount ):
                 newArea += [ [0] * self.getColumnCount() ]
             newArea += unfilledArea
             self._area = newArea
@@ -167,9 +167,9 @@ class TetrixContainer:
                 self.topFilledGridLine[colIndex] = rowIndex
 
     def computeBlockadeCount( self ):
-        for colIndex in xrange( self.getColumnCount() ):
+        for colIndex in range( self.getColumnCount() ):
             segCount = 0
-            for rowIndex in xrange( self.getRowCount() ):
+            for rowIndex in range( self.getRowCount() ):
                 if self._area[rowIndex][colIndex] == 1:
                     segCount += 1
                 else:

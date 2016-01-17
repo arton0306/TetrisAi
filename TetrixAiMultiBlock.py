@@ -22,7 +22,7 @@ class TetrixAiMultiBlock:
             returnMove = []
             firstBlockMove = BlockMovement( tetrixBlockQueue[0] )
             for ( aDirection, aFallingBlock ) in enumerate( tetrixBlockQueue[0].getAllDirectionPos() ):
-                for hDelta in xrange( containerOrigin.getColumnCount() ):
+                for hDelta in range( containerOrigin.getColumnCount() ):
                     # aFixBlock has 4 point and can not move but fall down
                     aFixBlock = [( row, col + hDelta ) for ( row, col ) in aFallingBlock]
                     putState = containerOrigin.getStateOfFallingBlock( aFixBlock )
@@ -101,9 +101,9 @@ class GeneAlgo:
 
         # 1st generation ancestor
         if aChoromosomePool == []:
-            self.currentChromosome = [ [random.uniform( self.randScopeMin[i], self.randScopeMax[i] ) for i in xrange(self.geneCount)] for j in xrange(self.population) ]
+            self.currentChromosome = [ [random.uniform( self.randScopeMin[i], self.randScopeMax[i] ) for i in range(self.geneCount)] for j in range(self.population) ]
         else:
-            self.currentChromosome = aChoromosomePool + [ [random.uniform( self.randScopeMin[i], self.randScopeMax[i] ) for i in xrange(self.geneCount)] for j in xrange( population - len( aChoromosomePool ) ) ]
+            self.currentChromosome = aChoromosomePool + [ [random.uniform( self.randScopeMin[i], self.randScopeMax[i] ) for i in range(self.geneCount)] for j in range( population - len( aChoromosomePool ) ) ]
 
         # for print
         self.fitnessCount = 0
@@ -121,12 +121,12 @@ class GeneAlgo:
 
         # produce block sequence
         inputBlock = []
-        for i in xrange( blockCount ):
+        for i in range( blockCount ):
             inputBlock.append( TetrixBlock.getRandBlock() )
 
         # play!
         totalCombo = 0
-        for i in xrange( blockCount - 1 ):
+        for i in range( blockCount - 1 ):
             (blockMovement, score) = ai.getBlockQueueMovementAndScore( tetrixContainer, inputBlock[i:i+2] )
             if score != None:
                 tetrixContainer.putBlockInContainer( blockMovement[0].getPutPos() )
@@ -138,19 +138,19 @@ class GeneAlgo:
         return Fitness( i, totalCombo )
 
     def run( self, generationCount ):
-        for generationIdx in xrange( generationCount ):
+        for generationIdx in range( generationCount ):
             # fitness: 1st element is blockCount, 2nd is combo
-            self.geneFitness = [ self.fitness( self.currentChromosome[i] ) for i in xrange(self.population) ]
+            self.geneFitness = [ self.fitness( self.currentChromosome[i] ) for i in range(self.population) ]
             self.outputFitness()
             winnerChromosome = self.selection( self.currentChromosome, self.geneFitness )
             self.produceNextGeneration( winnerChromosome )
             self.generationNum += 1
-        self.geneFitness = [ self.fitness( self.currentChromosome[i] ) for i in xrange(self.population) ]
+        self.geneFitness = [ self.fitness( self.currentChromosome[i] ) for i in range(self.population) ]
         outputFitness()
 
     def selection( self, players, fitness ):
         winnerChromosome = []
-        for i in xrange( 0, len( players ), 2 ):
+        for i in range( 0, len( players ), 2 ):
             fitness1 = fitness[i]
             fitness2 = fitness[i + 1]
             if fitness1.combo > fitness2.combo:
@@ -168,12 +168,12 @@ class GeneAlgo:
 
         random.shuffle( winnerChromosome )
         # clossover
-        for i in xrange( 0, len( winnerChromosome ), 2 ):
+        for i in range( 0, len( winnerChromosome ), 2 ):
             # father = winnerChromosome[i]
             # mother = winnerChromosome[i + 1]
             childCount = 2
-            for childIdx in xrange( childCount ):
-                child = [ winnerChromosome[i + random.randint(0,1)][geneIdx] for geneIdx in xrange( self.geneCount ) ]
+            for childIdx in range( childCount ):
+                child = [ winnerChromosome[i + random.randint(0,1)][geneIdx] for geneIdx in range( self.geneCount ) ]
                 # mutation
                 while ( random.random() < 0.65 ):
                     randomGeneIdx = random.randint( 0, self.geneCount - 1 )
@@ -207,12 +207,12 @@ def play():
 
     # produce block sequence
     inputBlock = []
-    for i in xrange( 2000 ):
+    for i in range( 2000 ):
         inputBlock.append( TetrixBlock.getRandBlock() )
 
     # play!
     totalCombo = 0
-    for i in xrange( 1999 ):
+    for i in range( 1999 ):
         print("-------------------------")
         print(" Got Block: " + inputBlock[i].getBlockName() + "\t Next Block: " + inputBlock[i + 1].getBlockName())
         (blockMovement, score) = ai.getBlockQueueMovementAndScore( tetrixContainer, inputBlock[i:i+2] )

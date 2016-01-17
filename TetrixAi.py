@@ -11,7 +11,7 @@ class TetrixAi:
         movement = BlockMovement( tetrixBlock )
         isValidMoveExsit = False
         for ( aDirection, aFallingBlock ) in enumerate( tetrixBlock.getAllDirectionPos() ):
-            for hDelta in xrange( containerOrigin.getColumnCount() ):
+            for hDelta in range( containerOrigin.getColumnCount() ):
                 # aFixBlock has 4 point and can not move but fall down
                 aFixBlock = [( row, col + hDelta ) for ( row, col ) in aFallingBlock]
                 putState = containerOrigin.getStateOfFallingBlock( aFixBlock )
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     tetrixContainer.printContainer()
     ai = TetrixAi()
 
-    for i in xrange( 100 ):
+    for i in range( 100 ):
         print("-------------------------")
         randBlock = TetrixBlock.getRandBlock()
         print(" Got Block: " + randBlock.getBlockName())
