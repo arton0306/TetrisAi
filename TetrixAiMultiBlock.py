@@ -4,9 +4,8 @@ from Util import *
 
 class TetrixAiMultiBlock:
     def __init__( self ):
-        self.defaultPara = [-75.7014380917982, -61.313501642047925, 70, -150.72589775573758, 120.66828636891036, -186.52951417386484, -154.82119481161956]
+        self.defaultPara = [   -0.903,   -0.027,   93.369,   -3.898,    4.681,  -12.310,    9.983,]
         self.userPara = None
-        pass
 
     # this function will return ( movement, score )
     # where movement is a list of BlockMovement
@@ -201,7 +200,7 @@ class GeneAlgo:
             cn += 1
         f.close()
 
-def test():
+def play():
     tetrixContainer = TetrixContainer()
     tetrixContainer.printContainer()
     ai = TetrixAiMultiBlock()
@@ -228,8 +227,10 @@ def test():
     print "Combo:" + str(totalCombo)
 
 if __name__ == '__main__':
-    isRunGA = True
-    if isRunGA:
+    do_train = True
+    if not do_train:
+        play()
+    else:
         g41 = [ [   -1.776,   -0.029,   63.771,   -1.229,    5.137,   -9.339,    9.704,],
                 [   -0.948,   -0.029,   64.941,   -3.534,    9.294,  -10.068,    9.695,],
                 [   -1.283,   -0.041,   65.158,   -3.534,    5.742,   -9.459,   10.221,],
@@ -278,8 +279,5 @@ if __name__ == '__main__':
                 [   -0.948,   -0.029,   54.603,   -3.534,    2.839,   -9.964,    8.910,],
                 [   -1.043,   -0.041,   46.963,   -3.643,    9.294,   -9.339,    9.676,],
                 [   -1.776,   -0.041,   64.183,   -1.200,    5.137,   -9.339,    9.704,], ]
-
         algo = GeneAlgo( 64, 41, g41 )
         algo.run( 10000 )
-    else:
-        test()
