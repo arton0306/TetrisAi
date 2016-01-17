@@ -80,14 +80,14 @@ if __name__ == '__main__':
     ai = TetrixAi()
 
     for i in xrange( 100 ):
-        print "-------------------------"
+        print("-------------------------")
         randBlock = TetrixBlock.getRandBlock()
-        print " Got Block: " + randBlock.getBlockName()
+        print(" Got Block: " + randBlock.getBlockName())
         blockMovement = ai.getMovementByAi( tetrixContainer, randBlock )
         if blockMovement != None:
             tetrixContainer.putBlockInContainer( blockMovement.getPutPos() )
             tetrixContainer.printContainer()
             tetrixContainer.printContainerState()
         else:
-            print "------ Game Over ------"
+            print("------ Game Over ------")
             break

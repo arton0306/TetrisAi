@@ -110,10 +110,10 @@ class GeneAlgo:
 
     def fitness( self, aChromosome ):
         self.fitnessCount += 1
-        print str( self.fitnessCount ) + " calc fitness of [ ",
+        print(str( self.fitnessCount ) + " calc fitness of [ ", end="")
         for gene in aChromosome:
-            print "%7.3f, " % (float(gene)),
-        print " ]"
+            print("%7.3f, " % (float(gene)), end="")
+        print(" ]")
         blockCount = 1002
         tetrixContainer = TetrixContainer()
         ai = TetrixAiMultiBlock()
@@ -134,7 +134,7 @@ class GeneAlgo:
             else:
                 break
 
-        print "#block:%5d totalcombo:%5d ratio:%5.3f" % ( i, totalCombo, float(totalCombo) / i )
+        print("#block:%5d totalcombo:%5d ratio:%5.3f" % ( i, totalCombo, float(totalCombo) / i ))
         return Fitness( i, totalCombo )
 
     def run( self, generationCount ):
@@ -213,8 +213,8 @@ def play():
     # play!
     totalCombo = 0
     for i in xrange( 1999 ):
-        print "-------------------------"
-        print " Got Block: " + inputBlock[i].getBlockName() + "\t Next Block: " + inputBlock[i + 1].getBlockName()
+        print("-------------------------")
+        print(" Got Block: " + inputBlock[i].getBlockName() + "\t Next Block: " + inputBlock[i + 1].getBlockName())
         (blockMovement, score) = ai.getBlockQueueMovementAndScore( tetrixContainer, inputBlock[i:i+2] )
         if score != None:
             tetrixContainer.putBlockInContainer( blockMovement[0].getPutPos() )
@@ -223,8 +223,8 @@ def play():
             totalCombo += tetrixContainer.combo
         else:
             break
-    print "------ Game Over ------"
-    print "Combo:" + str(totalCombo)
+    print("------ Game Over ------")
+    print("Combo:" + str(totalCombo))
 
 if __name__ == '__main__':
     do_train = True

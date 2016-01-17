@@ -130,7 +130,7 @@ class TetrixContainer:
         for row in self._area:
             for grid in row:
                 TetrixBlock.printGrid( grid )
-            print ""
+            print()
 
     def getColumnCount( self ):
         return len( self._area[0] )
@@ -185,14 +185,14 @@ class TetrixContainer:
                 self.holeCount += 1
 
     def printContainerState( self ):
-        print "topfilledgrid = " + str( self.topFilledGridLine )
-        print "revtopfilledgrid = " + str( [( self.getRowCount() - r ) for r in self.topFilledGridLine] )
-        print "filledGridCount = " + str( self.filledGridCount )
-        print "holeCount = " + str( self.holeCount )
-        print "blockadeCount = "+ str( self.blockadeCount )
-        print "lastLineClearCount = " + str( self.lastLineClearCount )
-        print "totalBlockCount = " + str( self.totalBlockCount )
-        print "combo = " + str( self.combo )
+        print("topfilledgrid = " + str( self.topFilledGridLine ))
+        print("revtopfilledgrid = " + str( [( self.getRowCount() - r ) for r in self.topFilledGridLine] ))
+        print("filledGridCount = " + str( self.filledGridCount ))
+        print("holeCount = " + str( self.holeCount ))
+        print("blockadeCount = "+ str( self.blockadeCount ))
+        print("lastLineClearCount = " + str( self.lastLineClearCount ))
+        print("totalBlockCount = " + str( self.totalBlockCount ))
+        print("combo = " + str( self.combo ))
 
 class TetrixBlock:
     # the orders are meaningful, the first one is initial coordinate in the ordinary tetrix game,
@@ -251,16 +251,16 @@ class TetrixBlock:
     @staticmethod
     def printGrid( grid ):
         if ( grid == 1 ):
-            print TetrixBlock.GRID_FILLED,
+            print(TetrixBlock.GRID_FILLED, end="")
         else:
-            print TetrixBlock.GRID_EMPTY,
+            print(TetrixBlock.GRID_EMPTY, end="")
 
     @staticmethod
     def printGrid4x4( grid4x4 ):
         for row in grid4x4:
             for grid in row:
                 TetrixBlock.printGrid( grid )
-            print ""
+            print()
 
     @staticmethod
     def printAllBlock():
@@ -270,8 +270,8 @@ class TetrixBlock:
                 for ( row, col ) in fixDirectionBlock:
                     grid4x4[row][col] = 1 #filled
                 TetrixBlock.printGrid4x4( grid4x4 )
-                print "-------------------"
-            print "-------------------"
+                print("-------------------")
+            print("-------------------")
 
 if __name__=='__main__':
     TetrixBlock.printAllBlock()
