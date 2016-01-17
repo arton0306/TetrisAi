@@ -227,7 +227,7 @@ def play():
     print("Combo:" + str(totalCombo))
 
 if __name__ == '__main__':
-    do_train = True
+    do_train = False
     if not do_train:
         play()
     else:
