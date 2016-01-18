@@ -14,8 +14,8 @@ There are 2 versions of AI.
   - Run: _python3 TetrixAiMultiBlock.py_
   - You can switch to train mode by modified the do_train flag in TetrixAiMultiBlock.py
 
-### Output Example
-The play of Ai will be output in console by the format as below, or see [replay.txt](replay.txt) for a full example ).
+### Output Example For Smart AI
+The result of Ai output in console by the format as below, or see [replay.txt](replay.txt) for a full example ).
 ``` txt
 ...
  Got Block: S	 Next Block: T
