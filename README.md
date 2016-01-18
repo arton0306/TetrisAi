@@ -49,3 +49,6 @@ totalBlockCount = 893
 combo = 1
 ...
 ```
+
+### Other Files
+The other files are for enabling simple AI to play TetrixBattle in Facebook. Get tetrix piece by screenshot and control the game by send keyboard signal. Will not update these files in the future.
