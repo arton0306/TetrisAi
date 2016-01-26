@@ -32,6 +32,16 @@ class BlockFetcher:
     BLOCK_I = ( 60, 152, 171)
     BLOCK_O = ( 204, 165, 65)
 
+    # at rent home, ubuntu15.04, firefox, 1920*1080
+    CANDIDATE_POINT = ( 387, 457 )
+    BLOCK_N = (252, 77, 115)
+    BLOCK_I = (45, 210, 255)
+    BLOCK_L = (75, 123, 242)
+    BLOCK_O = (255, 221, 63)
+    BLOCK_J = (255, 150, 56)
+    BLOCK_T = (225, 83, 193)
+    BLOCK_S = (142, 228, 46)
+
     # error tolerant
     ERROR = 3
 
@@ -76,7 +86,7 @@ class BlockFetcher:
 if __name__ == '__main__':
     blockfetch = BlockFetcher()
     # time.sleep(1)
-    for i in range(1):
+    for i in range(50):
         # time.sleep(2)
         blockName = blockfetch.getBlockName()
         if blockName is not None:
