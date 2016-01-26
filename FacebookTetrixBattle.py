@@ -23,7 +23,7 @@ class FacebookTetrixBattle:
 
     @staticmethod
     def toString():
-        print FacebookTetrixBattle.hDelta
+        print(FacebookTetrixBattle.hDelta)
 
     @staticmethod
     def playWithAi():
@@ -34,9 +34,9 @@ class FacebookTetrixBattle:
 
         time.sleep(3)
 
-        print "-------- Start --------"
+        print("-------- Start --------")
         blockGotName = blockfetch.getBlockName()
-        print " Got Block: " + blockGotName
+        print(" Got Block: " + blockGotName)
         KeyBoardSimulator().HoldBlock()
         while ( True ):
             blockMovement = ai.getMovementByAi( tetrixContainer, TetrixBlock( blockGotName ) )
@@ -45,9 +45,9 @@ class FacebookTetrixBattle:
             #tetrixContainer.printContainer()
             blockGotName = blockfetch.getBlockName()
             FacebookTetrixBattle.sendMoveCmd( blockMovement )
-            print "-------------------------"
+            print("-------------------------")
             FacebookTetrixBattle.delayNextBlock( tetrixContainer )
-            print " Got Block: " + blockGotName
+            print(" Got Block: " + blockGotName)
 
     @staticmethod
     def playWithMultiBlockAi():
@@ -59,16 +59,16 @@ class FacebookTetrixBattle:
         time.sleep(3)
         curBlockName = blockfetch.getBlockName()
         KeyBoardSimulator().HoldBlock()
-        print "-------- Start --------"
+        print("-------- Start --------")
         while ( True ):
             nextBlockName = blockfetch.getBlockName()
-            print " Current Block: " + curBlockName + "\tNext Block: " + nextBlockName
+            print(" Current Block: " + curBlockName + "\tNext Block: " + nextBlockName)
             (blockMovement, score) = ai.getBlockQueueMovementAndScore( tetrixContainer, [TetrixBlock( curBlockName ), TetrixBlock( nextBlockName )] )
             tetrixContainer.putBlockInContainer( blockMovement[0].getPutPos() )
             FacebookTetrixBattle.sendMoveCmd( blockMovement[0] )
             curBlockName = nextBlockName
             time.sleep( 0.03 )
-            print "-------------------------"
+            print("-------------------------")
 
     @staticmethod
     def delayNextBlock( container ):
@@ -96,15 +96,15 @@ class FacebookTetrixBattle:
             FacebookTetrixBattle.sKeyBoardSimulator.MoveRightMulti( rightMoveCount )
 
         # debug
-        print "leftMoveCount=" + str( leftMoveCount ) + " rotationCount=" + str( blockMovement._rotationCount )
+        print("leftMoveCount=" + str( leftMoveCount ) + " rotationCount=" + str( blockMovement._rotationCount ))
 
           # send fall down cmd
         FacebookTetrixBattle.sKeyBoardSimulator.FallInstantly()
 
 if __name__ == '__main__':
-    print "The column index(from 0) of the most left grid of the block."
-    for key, value in FacebookTetrixBattle.hDelta.iteritems():
-        print key, value
+    print("The column index(from 0) of the most left grid of the block.")
+    for key, value in FacebookTetrixBattle.hDelta.items():
+        print(key, value)
 
     #FacebookTetrixBattle.playWithAi()
     FacebookTetrixBattle.playWithMultiBlockAi()
