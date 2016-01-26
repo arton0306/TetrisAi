@@ -1,4 +1,4 @@
-import ImageGrab
+import pyscreenshot as ImageGrab
 import time
 
 class BlockFetcher:
@@ -46,13 +46,15 @@ class BlockFetcher:
             return True
 
     def getRgbOnScreen( self, x, y ):
-        im = ImageGrab.grab( ( x, y, x + 1, y + 1 ) )
-        pix = im.load()
-        return pix[0, 0]
+        # must convert to RGB after grab,
+        # because the format of grab is decide by internal algorithm
+        # sometimes mode RGB, sometimes mode P (palette)
+        im = ImageGrab.grab(bbox=(x, y, x + 1, y + 1)).convert('RGB')
+        pix = im.getpixel((0,0))
+        return pix
 
     def getBlockName( self ):
         rgb = self.getRgbOnScreen( BlockFetcher.CANDIDATE_POINT[0], BlockFetcher.CANDIDATE_POINT[1] )
-        print rgb
         if self.isWithinRGB( BlockFetcher.BLOCK_N, rgb, BlockFetcher.ERROR):
             return "N"
         elif self.isWithinRGB( BlockFetcher.BLOCK_S, rgb, BlockFetcher.ERROR):
@@ -68,11 +70,14 @@ class BlockFetcher:
         elif self.isWithinRGB( BlockFetcher.BLOCK_L, rgb, BlockFetcher.ERROR):
             return "L"
         else:
+            print(rgb, "is not valid block color")
             return None
 
 if __name__ == '__main__':
     blockfetch = BlockFetcher()
-    time.sleep(1)
-    for i in range(30):
-        time.sleep(2)
-        print blockfetch.getBlockName()
+    # time.sleep(1)
+    for i in range(1):
+        # time.sleep(2)
+        blockName = blockfetch.getBlockName()
+        if blockName is not None:
+            print(blockName)
