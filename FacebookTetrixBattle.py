@@ -16,7 +16,7 @@ class FacebookTetrixBattle:
     hDelta["J"] = ( 3, 4, 3, 3 )
     hDelta["L"] = ( 3, 4, 3, 3 )
 
-    sKeyBoardSimulator = CPKeyBoardSimulator(pressKeySec = 0.15, gap2KeySec = 0.45)
+    sKeyBoardSimulator = CPKeyBoardSimulator(pressKeySec = 0.06, gap2KeySec = 0.3)
 
     def __init__( self ):
         pass
