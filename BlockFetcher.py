@@ -36,9 +36,9 @@ class BlockFetcher:
     CANDIDATE_POINT = ( 387, 457 )
     BLOCK_N = (252, 77, 115)
     BLOCK_I = (45, 210, 255)
-    BLOCK_L = (75, 123, 242)
+    BLOCK_L = (255, 150, 56)
     BLOCK_O = (255, 221, 63)
-    BLOCK_J = (255, 150, 56)
+    BLOCK_J = (75, 123, 242)
     BLOCK_T = (225, 83, 193)
     BLOCK_S = (142, 228, 46)
 
