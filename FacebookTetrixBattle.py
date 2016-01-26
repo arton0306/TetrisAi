@@ -3,7 +3,7 @@ from BlockFetcher import *
 from TetrixObject import *
 from TetrixAi import *
 from TetrixAiMultiBlock import *
-from KeyBoardSimulator import *
+from CPKeyBoardSimulator import *
 
 class FacebookTetrixBattle:
     # the column index(from 0) of the most left grid of the block
@@ -16,7 +16,7 @@ class FacebookTetrixBattle:
     hDelta["J"] = ( 3, 4, 3, 3 )
     hDelta["L"] = ( 3, 4, 3, 3 )
 
-    sKeyBoardSimulator = KeyBoardSimulator()
+    sKeyBoardSimulator = CPKeyBoardSimulator()
 
     def __init__( self ):
         pass
@@ -26,24 +26,32 @@ class FacebookTetrixBattle:
         print(FacebookTetrixBattle.hDelta)
 
     @staticmethod
+    def fetchBlock():
+        block = BlockFetcher().getBlockName()
+        if block is None:
+            block = TetrixBlock.getRandBlock().getBlockName()
+            print("!"*30, "block fetch error! use a rand pseudo block! [%s]" % block)
+        return block
+
+    @staticmethod
     def playWithAi():
         tetrixContainer = TetrixContainer()
         tetrixContainer.printContainer()
         ai = TetrixAi()
-        blockfetch = BlockFetcher()
+        blockfetch = FacebookTetrixBattle.fetchBlock()
 
-        time.sleep(3)
+        time.sleep(1)
 
         print("-------- Start --------")
-        blockGotName = blockfetch.getBlockName()
+        blockGotName = FacebookTetrixBattle.fetchBlock()
         print(" Got Block: " + blockGotName)
-        KeyBoardSimulator().HoldBlock()
+        CPKeyBoardSimulator().HoldBlock()
         while ( True ):
             blockMovement = ai.getMovementByAi( tetrixContainer, TetrixBlock( blockGotName ) )
             #blockMovement = ai.getMovementByAi( tetrixContainer, TetrixBlock( "O" ) )
             tetrixContainer.putBlockInContainer( blockMovement.getPutPos() )
             #tetrixContainer.printContainer()
-            blockGotName = blockfetch.getBlockName()
+            blockGotName = FacebookTetrixBattle.fetchBlock()
             FacebookTetrixBattle.sendMoveCmd( blockMovement )
             print("-------------------------")
             FacebookTetrixBattle.delayNextBlock( tetrixContainer )
@@ -55,16 +63,16 @@ class FacebookTetrixBattle:
         tetrixContainer.printContainer()
         ai = TetrixAiMultiBlock()
 
-        blockfetch = BlockFetcher()
         time.sleep(3)
-        curBlockName = blockfetch.getBlockName()
-        KeyBoardSimulator().HoldBlock()
+        curBlockName = FacebookTetrixBattle.fetchBlock()
+        CPKeyBoardSimulator().HoldBlock()
         print("-------- Start --------")
         while ( True ):
-            nextBlockName = blockfetch.getBlockName()
+            nextBlockName = FacebookTetrixBattle.fetchBlock()
             print(" Current Block: " + curBlockName + "\tNext Block: " + nextBlockName)
             (blockMovement, score) = ai.getBlockQueueMovementAndScore( tetrixContainer, [TetrixBlock( curBlockName ), TetrixBlock( nextBlockName )] )
             tetrixContainer.putBlockInContainer( blockMovement[0].getPutPos() )
+            tetrixContainer.printContainer()
             FacebookTetrixBattle.sendMoveCmd( blockMovement[0] )
             curBlockName = nextBlockName
             time.sleep( 0.03 )
