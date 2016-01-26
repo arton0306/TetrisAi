@@ -16,16 +16,23 @@ import time
 # pyautogui.keyUp('a')
 
 class CPKeyBoardSimulator:
-    def __init__( self ):
-        self._keyPressedSec = 0.13
-        self._between2KeySec = 0.11
+    def __init__( self, pressKeySec = None, gap2KeySec = None ):
+        if pressKeySec is not None:
+            self._pressKeySec = pressKeySec
+        else:
+            self._pressKeySec = 0.13
+
+        if gap2KeySec is not None:
+            self._gap2KeySec = gap2KeySec
+        else:
+            self._gap2KeySec = 0.11
 
     def SendKey( self, aKey ):
         self.printKey( aKey )
         pyautogui.keyDown(aKey)
-        time.sleep( self._keyPressedSec )
+        time.sleep( self._pressKeySec )
         pyautogui.keyUp(aKey)
-        time.sleep( self._between2KeySec )
+        time.sleep( self._gap2KeySec )
 
     def printKey( self, aKey ):
         keyList = ['x', 'z', 'c', 'space', 'right', 'left']

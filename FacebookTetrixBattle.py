@@ -16,7 +16,7 @@ class FacebookTetrixBattle:
     hDelta["J"] = ( 3, 4, 3, 3 )
     hDelta["L"] = ( 3, 4, 3, 3 )
 
-    sKeyBoardSimulator = CPKeyBoardSimulator()
+    sKeyBoardSimulator = CPKeyBoardSimulator(pressKeySec = 0.15, gap2KeySec = 0.45)
 
     def __init__( self ):
         pass
@@ -36,7 +36,7 @@ class FacebookTetrixBattle:
     @staticmethod
     def holdBlock():
         print("hold block, not use it instantly")
-        CPKeyBoardSimulator().HoldBlock()
+        FacebookTetrixBattle.sKeyBoardSimulator.HoldBlock()
 
     @staticmethod
     def playWithAi():
@@ -80,15 +80,15 @@ class FacebookTetrixBattle:
             tetrixContainer.printContainer()
             FacebookTetrixBattle.sendMoveCmd( blockMovement[0] )
             curBlockName = nextBlockName
-            time.sleep( 0.03 )
+            FacebookTetrixBattle.delayNextBlock( tetrixContainer )
             print("-------------------------")
 
     @staticmethod
     def delayNextBlock( container ):
         if container.lastLineClearCount != 0:
-            time.sleep( 0.11 )
+            time.sleep( 0.25 )
         else:
-            time.sleep( 0.02 )
+            time.sleep( 0.25 )
 
     @staticmethod
     def sendMoveCmd( blockMovement ):
