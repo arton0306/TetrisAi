@@ -34,18 +34,23 @@ class FacebookTetrixBattle:
         return block
 
     @staticmethod
+    def holdBlock():
+        print("hold block, not use it instantly")
+        CPKeyBoardSimulator().HoldBlock()
+
+    @staticmethod
     def playWithAi():
         tetrixContainer = TetrixContainer()
         tetrixContainer.printContainer()
         ai = TetrixAi()
         blockfetch = FacebookTetrixBattle.fetchBlock()
 
-        time.sleep(1)
+        time.sleep(3)
 
         print("-------- Start --------")
         blockGotName = FacebookTetrixBattle.fetchBlock()
         print(" Got Block: " + blockGotName)
-        CPKeyBoardSimulator().HoldBlock()
+        FacebookTetrixBattle.holdBlock()
         while ( True ):
             blockMovement = ai.getMovementByAi( tetrixContainer, TetrixBlock( blockGotName ) )
             #blockMovement = ai.getMovementByAi( tetrixContainer, TetrixBlock( "O" ) )
@@ -65,7 +70,7 @@ class FacebookTetrixBattle:
 
         time.sleep(3)
         curBlockName = FacebookTetrixBattle.fetchBlock()
-        CPKeyBoardSimulator().HoldBlock()
+        FacebookTetrixBattle.holdBlock()
         print("-------- Start --------")
         while ( True ):
             nextBlockName = FacebookTetrixBattle.fetchBlock()
