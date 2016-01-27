@@ -4,7 +4,10 @@ from Util import *
 
 class TetrixAiMultiBlock:
     def __init__( self ):
-        self.defaultPara = [   -0.903,   -0.027,   93.369,   -3.898,    4.681,  -12.310,    9.983,]
+        # self.defaultPara = [   -0.903,   -0.027,   93.369,   -3.898,    4.681,  -12.310,    9.983,]
+
+        # from gen100 combo:  683 #block: 1000 ratio:0.683
+        self.defaultPara = [   -1.425,    0.035,   73.637,   -5.299,    9.393,  -11.501,    8.674,]
         self.userPara = None
 
     # this function will return ( movement, score )

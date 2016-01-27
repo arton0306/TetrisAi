@@ -10,7 +10,8 @@ def isWithinRGB( standardRGB, inputRGB, error ):
 
 def getBlockName():
     # (x, y)
-    tetrixCandidateZone = ( 387, 457 )
+    tetrixCandidateZone = ( 387, 457 )  # at rent home, ubuntu15.04, firefox, 1920*1080
+    tetrixCandidateZone = ( 396, 551 )  # at rent home, ubuntu15.04, firefox, 1920*1080, tune page
     # width and height
     zoneWH = 30
 

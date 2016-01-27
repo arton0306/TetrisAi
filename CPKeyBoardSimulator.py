@@ -16,7 +16,7 @@ import time
 # pyautogui.keyUp('a')
 
 class CPKeyBoardSimulator:
-    def __init__( self, pressKeySec = None, gap2KeySec = None ):
+    def __init__( self, pressKeySec = None, gap2KeySec = None, doTimeStamp = True ):
         if pressKeySec is not None:
             self._pressKeySec = pressKeySec
         else:
@@ -27,11 +27,20 @@ class CPKeyBoardSimulator:
         else:
             self._gap2KeySec = 0.11
 
+        self.doTimeStamp = doTimeStamp
+
     def SendKey( self, aKey ):
-        self.printKey( aKey )
+        if self.doTimeStamp:
+            print( "press %5s @ %15.3f" % (aKey, time.time()) )
         pyautogui.keyDown(aKey)
+        if self.doTimeStamp:
+            print( "press %5s @ %15.3f" % (aKey, time.time()) )
         time.sleep( self._pressKeySec )
+        if self.doTimeStamp:
+            print( "upkey %5s @ %15.3f" % (aKey, time.time()) )
         pyautogui.keyUp(aKey)
+        if self.doTimeStamp:
+            print( "upkey %5s @ %15.3f" % (aKey, time.time()) )
         time.sleep( self._gap2KeySec )
 
     def printKey( self, aKey ):
@@ -86,12 +95,14 @@ if __name__ == '__main__':
     keyBoard.HoldBlock()
     """
 
-    keyBoard = CPKeyBoardSimulator()
+    keyBoard = CPKeyBoardSimulator(0,0)
     cmdOrder = [keyBoard.MoveLeft, keyBoard.MoveLeft, keyBoard.MoveLeft, keyBoard.FallInstantly]
     #cmdOrder = [ keyBoard.FallInstantly ]
     for i in range(20):
+        #keyBoard.MoveLeftMulti(3)
+        #keyBoard.RotateRightMulti(2)
+        keyBoard.MoveRightMulti(4)
+        keyBoard.FallInstantly()
         keyBoard.MoveLeftMulti(3)
-        keyBoard.RotateRightMulti(2)
-        keyBoard.MoveRightMulti(2)
         keyBoard.FallInstantly()
 
