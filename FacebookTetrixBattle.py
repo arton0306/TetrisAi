@@ -1,11 +1,11 @@
 import time
 from BlockFetcher import *
-from TetrixObject import *
-from TetrixAi import *
-from TetrixAiMultiBlock import *
+from TetrisObject import *
+from TetrisAi import *
+from TetrisAiMultiBlock import *
 from CPKeyBoardSimulator import *
 
-class FacebookTetrixBattle:
+class FacebookTetrisBattle:
     # the column index(from 0) of the most left grid of the block
     hDelta = {}
     hDelta["O"] = ( 4, )
@@ -23,66 +23,66 @@ class FacebookTetrixBattle:
 
     @staticmethod
     def toString():
-        print(FacebookTetrixBattle.hDelta)
+        print(FacebookTetrisBattle.hDelta)
 
     @staticmethod
     def fetchBlock():
         block = BlockFetcher().getBlockName()
         if block is None:
-            block = TetrixBlock.getRandBlock().getBlockName()
+            block = TetrisBlock.getRandBlock().getBlockName()
             print("!"*30, "block fetch error! use a rand pseudo block! [%s]" % block)
         return block
 
     @staticmethod
     def holdBlock():
         print("hold block, not use it instantly")
-        FacebookTetrixBattle.sKeyBoardSimulator.HoldBlock()
+        FacebookTetrisBattle.sKeyBoardSimulator.HoldBlock()
 
     @staticmethod
     def playWithAi():
-        tetrisContainer = TetrixContainer()
+        tetrisContainer = TetrisContainer()
         tetrisContainer.printContainer()
-        ai = TetrixAi()
-        blockfetch = FacebookTetrixBattle.fetchBlock()
+        ai = TetrisAi()
+        blockfetch = FacebookTetrisBattle.fetchBlock()
 
         time.sleep(3)
 
         print("-------- Start --------")
-        blockGotName = FacebookTetrixBattle.fetchBlock()
+        blockGotName = FacebookTetrisBattle.fetchBlock()
         print(" Got Block: " + blockGotName)
-        FacebookTetrixBattle.holdBlock()
+        FacebookTetrisBattle.holdBlock()
         while ( True ):
-            blockMovement = ai.getMovementByAi( tetrisContainer, TetrixBlock( blockGotName ) )
-            #blockMovement = ai.getMovementByAi( tetrisContainer, TetrixBlock( "O" ) )
+            blockMovement = ai.getMovementByAi( tetrisContainer, TetrisBlock( blockGotName ) )
+            #blockMovement = ai.getMovementByAi( tetrisContainer, TetrisBlock( "O" ) )
             tetrisContainer.putBlockInContainer( blockMovement.getPutPos() )
             #tetrisContainer.printContainer()
-            blockGotName = FacebookTetrixBattle.fetchBlock()
-            FacebookTetrixBattle.sendMoveCmd( blockMovement )
+            blockGotName = FacebookTetrisBattle.fetchBlock()
+            FacebookTetrisBattle.sendMoveCmd( blockMovement )
             print("-------------------------")
-            FacebookTetrixBattle.delayNextBlock( tetrisContainer )
+            FacebookTetrisBattle.delayNextBlock( tetrisContainer )
             print(" Got Block: " + blockGotName)
 
     @staticmethod
     def playWithMultiBlockAi():
-        tetrisContainer = TetrixContainer()
+        tetrisContainer = TetrisContainer()
         tetrisContainer.printContainer()
-        ai = TetrixAiMultiBlock()
+        ai = TetrisAiMultiBlock()
 
         time.sleep(3)
-        curBlockName = FacebookTetrixBattle.fetchBlock()
-        FacebookTetrixBattle.holdBlock()
+        curBlockName = FacebookTetrisBattle.fetchBlock()
+        FacebookTetrisBattle.holdBlock()
         print("-------- Start --------")
         while ( True ):
-            nextBlockName = FacebookTetrixBattle.fetchBlock()
+            nextBlockName = FacebookTetrisBattle.fetchBlock()
             print(" Current Block: " + curBlockName + "\tNext Block: " + nextBlockName)
             aiTimeBeg = time.time()
-            (blockMovement, score) = ai.getBlockQueueMovementAndScore( tetrisContainer, [TetrixBlock( curBlockName ), TetrixBlock( nextBlockName )] )
+            (blockMovement, score) = ai.getBlockQueueMovementAndScore( tetrisContainer, [TetrisBlock( curBlockName ), TetrisBlock( nextBlockName )] )
             print(" Ai compute time: %f" % (time.time() - aiTimeBeg))
             tetrisContainer.putBlockInContainer( blockMovement[0].getPutPos() )
             tetrisContainer.printContainer()
-            FacebookTetrixBattle.sendMoveCmd( blockMovement[0] )
+            FacebookTetrisBattle.sendMoveCmd( blockMovement[0] )
             curBlockName = nextBlockName
-            FacebookTetrixBattle.delayNextBlock( tetrisContainer )
+            FacebookTetrisBattle.delayNextBlock( tetrisContainer )
             print("-------------------------")
 
     @staticmethod
@@ -96,32 +96,32 @@ class FacebookTetrixBattle:
     @staticmethod
     def sendMoveCmd( blockMovement ):
         blockName = blockMovement._tetrisBlock.getBlockName()
-        fb_block_hDeltaList = FacebookTetrixBattle.hDelta[blockName]
+        fb_block_hDeltaList = FacebookTetrisBattle.hDelta[blockName]
         fb_block_hDelta = fb_block_hDeltaList[blockMovement._rotationCount]
 
         # in facebook tetris_battle, the rotation should be first to avoid shift erroneously near border
         # send rotate cmd
-        FacebookTetrixBattle.sKeyBoardSimulator.RotateRightMulti( blockMovement._rotationCount )
+        FacebookTetrisBattle.sKeyBoardSimulator.RotateRightMulti( blockMovement._rotationCount )
 
         # send horizontal shift cmd
         leftMoveCount = fb_block_hDelta - blockMovement._hDelta
         rightMoveCount = -leftMoveCount
         if leftMoveCount >= 0:
-            FacebookTetrixBattle.sKeyBoardSimulator.MoveLeftMulti( leftMoveCount )
+            FacebookTetrisBattle.sKeyBoardSimulator.MoveLeftMulti( leftMoveCount )
         else:
-            FacebookTetrixBattle.sKeyBoardSimulator.MoveRightMulti( rightMoveCount )
+            FacebookTetrisBattle.sKeyBoardSimulator.MoveRightMulti( rightMoveCount )
 
         # debug
         print("leftMoveCount=" + str( leftMoveCount ) + " rotationCount=" + str( blockMovement._rotationCount ))
 
           # send fall down cmd
-        FacebookTetrixBattle.sKeyBoardSimulator.FallInstantly()
+        FacebookTetrisBattle.sKeyBoardSimulator.FallInstantly()
 
 if __name__ == '__main__':
     print("The column index(from 0) of the most left grid of the block.")
-    for key, value in FacebookTetrixBattle.hDelta.items():
+    for key, value in FacebookTetrisBattle.hDelta.items():
         print(key, value)
 
-    #FacebookTetrixBattle.playWithAi()
-    FacebookTetrixBattle.playWithMultiBlockAi()
+    #FacebookTetrisBattle.playWithAi()
+    FacebookTetrisBattle.playWithMultiBlockAi()
 

@@ -41,7 +41,7 @@ class BlockMovement:
     def getPutPos( self ):
         return self._putPos
 
-class TetrixContainer:
+class TetrisContainer:
     def __init__( self, area = None ):
         if area == None:
             # 0 means empty, 1 means filled
@@ -129,7 +129,7 @@ class TetrixContainer:
     def printContainer( self ):
         for row in self._area:
             for grid in row:
-                TetrixBlock.printGrid( grid )
+                TetrisBlock.printGrid( grid )
             print()
 
     def getColumnCount( self ):
@@ -194,7 +194,7 @@ class TetrixContainer:
         print("totalBlockCount = " + str( self.totalBlockCount ))
         print("combo = " + str( self.combo ))
 
-class TetrixBlock:
+class TetrisBlock:
     # the orders are meaningful, the first one is initial coordinate in the ordinary tetris game,
     # the followings stands for rotating clockwise
     BLOCK_I = ( ( ( 0, 0 ), ( 0, 1 ), ( 0, 2 ), ( 0, 3 ) ),
@@ -225,12 +225,12 @@ class TetrixBlock:
 
     def __init__( self, blockStr ):
         self._name = blockStr
-        self._posAllDirection = TetrixBlock.ALL_BLOCK[TetrixBlock.ALL_BLOCK_NAME.index( blockStr )]
+        self._posAllDirection = TetrisBlock.ALL_BLOCK[TetrisBlock.ALL_BLOCK_NAME.index( blockStr )]
 
     @staticmethod
     def getRandBlock():
-        randNum = random.randint( 0, len( TetrixBlock.ALL_BLOCK_NAME ) -1 )
-        return TetrixBlock( TetrixBlock.ALL_BLOCK_NAME[randNum] )
+        randNum = random.randint( 0, len( TetrisBlock.ALL_BLOCK_NAME ) -1 )
+        return TetrisBlock( TetrisBlock.ALL_BLOCK_NAME[randNum] )
 
     def getBlockName( self ):
         return self._name
@@ -251,30 +251,30 @@ class TetrixBlock:
     @staticmethod
     def printGrid( grid ):
         if ( grid == 1 ):
-            print(TetrixBlock.GRID_FILLED, end="")
+            print(TetrisBlock.GRID_FILLED, end="")
         else:
-            print(TetrixBlock.GRID_EMPTY, end="")
+            print(TetrisBlock.GRID_EMPTY, end="")
 
     @staticmethod
     def printGrid4x4( grid4x4 ):
         for row in grid4x4:
             for grid in row:
-                TetrixBlock.printGrid( grid )
+                TetrisBlock.printGrid( grid )
             print()
 
     @staticmethod
     def printAllBlock():
-        for oneBlock in TetrixBlock.ALL_BLOCK:
+        for oneBlock in TetrisBlock.ALL_BLOCK:
             for fixDirectionBlock in oneBlock:
-                grid4x4 = TetrixBlock.getEmptyGrid4x4()
+                grid4x4 = TetrisBlock.getEmptyGrid4x4()
                 for ( row, col ) in fixDirectionBlock:
                     grid4x4[row][col] = 1 #filled
-                TetrixBlock.printGrid4x4( grid4x4 )
+                TetrisBlock.printGrid4x4( grid4x4 )
                 print("-------------------")
             print("-------------------")
 
 if __name__=='__main__':
-    TetrixBlock.printAllBlock()
-    test = TetrixContainer()
+    TetrisBlock.printAllBlock()
+    test = TetrisContainer()
     test.printContainer()
     test.printContainerState()

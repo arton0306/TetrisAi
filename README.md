@@ -1,4 +1,4 @@
-# TetrixAi
+# TetrisAi
 
 This is designed for fun and to test genetic algorithm.
 
@@ -6,13 +6,13 @@ There are 2 versions of AI.
 
 1. Simple AI
   - Setting AI parameters manually, and just considering current tetris piece.
-  - Only 2 files: TetrixAi.py and TetrixObject.py, < 400 lines totally.
-  - Run: _python3 TetrixAi.py_
+  - Only 2 files: TetrisAi.py and TetrisObject.py, < 400 lines totally.
+  - Run: _python3 TetrisAi.py_
 2. Smart AI
   - Trainning AI parameters with genetic algorithm, and considering current and next tetris pieces.
-  - Only 2 files: TetrixAiMultiBlock.py and TetrixObject.py, < 600 lines totally.
-  - Run: _python3 TetrixAiMultiBlock.py_
-  - You can switch to train mode by modified the do_train flag in TetrixAiMultiBlock.py
+  - Only 2 files: TetrisAiMultiBlock.py and TetrisObject.py, < 600 lines totally.
+  - Run: _python3 TetrisAiMultiBlock.py_
+  - You can switch to train mode by modified the do_train flag in TetrisAiMultiBlock.py
 
 ### Output Example For Smart AI
 The result of Ai output in console by the format as below, or see [replay.txt](replay.txt) for a full example ).

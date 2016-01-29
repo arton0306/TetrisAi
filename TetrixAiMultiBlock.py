@@ -1,8 +1,8 @@
 import random
-from TetrixObject import *
+from TetrisObject import *
 from Util import *
 
-class TetrixAiMultiBlock:
+class TetrisAiMultiBlock:
     def __init__( self ):
         # self.defaultPara = [   -0.903,   -0.027,   93.369,   -3.898,    4.681,  -12.310,    9.983,]
 
@@ -98,7 +98,7 @@ class GeneAlgo:
         assert len(aChoromosomePool) <= population
         self.generationNum = aStartGenerationNum
         self.population = population # should be 4x
-        self.geneCount = len( TetrixAiMultiBlock().defaultPara )
+        self.geneCount = len( TetrisAiMultiBlock().defaultPara )
         self.randScopeMin = [-5, -1, 30,-10,  0,-20,  0]
         self.randScopeMax = [ 5,0.4, 99,  0, 20,  0, 20]
 
@@ -118,14 +118,14 @@ class GeneAlgo:
             print("%7.3f, " % (float(gene)), end="")
         print(" ]")
         blockCount = 1002
-        tetrisContainer = TetrixContainer()
-        ai = TetrixAiMultiBlock()
+        tetrisContainer = TetrisContainer()
+        ai = TetrisAiMultiBlock()
         ai.userPara = aChromosome
 
         # produce block sequence
         inputBlock = []
         for i in range( blockCount ):
-            inputBlock.append( TetrixBlock.getRandBlock() )
+            inputBlock.append( TetrisBlock.getRandBlock() )
 
         # play!
         totalCombo = 0
@@ -204,14 +204,14 @@ class GeneAlgo:
         f.close()
 
 def play():
-    tetrisContainer = TetrixContainer()
+    tetrisContainer = TetrisContainer()
     tetrisContainer.printContainer()
-    ai = TetrixAiMultiBlock()
+    ai = TetrisAiMultiBlock()
 
     # produce block sequence
     inputBlock = []
     for i in range( 2000 ):
-        inputBlock.append( TetrixBlock.getRandBlock() )
+        inputBlock.append( TetrisBlock.getRandBlock() )
 
     # play!
     totalCombo = 0

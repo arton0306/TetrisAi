@@ -1,7 +1,7 @@
-from TetrixObject import *
+from TetrisObject import *
 from Util import *
 
-class TetrixAi:
+class TetrisAi:
     def __init__( self ):
         pass
 
@@ -75,13 +75,13 @@ class TetrixAi:
         return score
 
 if __name__ == '__main__':
-    tetrisContainer = TetrixContainer()
+    tetrisContainer = TetrisContainer()
     tetrisContainer.printContainer()
-    ai = TetrixAi()
+    ai = TetrisAi()
 
     for i in range( 100 ):
         print("-------------------------")
-        randBlock = TetrixBlock.getRandBlock()
+        randBlock = TetrisBlock.getRandBlock()
         print(" Got Block: " + randBlock.getBlockName())
         blockMovement = ai.getMovementByAi( tetrisContainer, randBlock )
         if blockMovement != None:
