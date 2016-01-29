@@ -6,11 +6,11 @@ class TetrixAi:
         pass
 
     # if there are not valid move, return None
-    def getMovementByAi( self, containerOrigin, tetrixBlock ):
+    def getMovementByAi( self, containerOrigin, tetrisBlock ):
         maxScore = -1000000
-        movement = BlockMovement( tetrixBlock )
+        movement = BlockMovement( tetrisBlock )
         isValidMoveExsit = False
-        for ( aDirection, aFallingBlock ) in enumerate( tetrixBlock.getAllDirectionPos() ):
+        for ( aDirection, aFallingBlock ) in enumerate( tetrisBlock.getAllDirectionPos() ):
             for hDelta in range( containerOrigin.getColumnCount() ):
                 # aFixBlock has 4 point and can not move but fall down
                 aFixBlock = [( row, col + hDelta ) for ( row, col ) in aFallingBlock]
@@ -75,19 +75,19 @@ class TetrixAi:
         return score
 
 if __name__ == '__main__':
-    tetrixContainer = TetrixContainer()
-    tetrixContainer.printContainer()
+    tetrisContainer = TetrixContainer()
+    tetrisContainer.printContainer()
     ai = TetrixAi()
 
     for i in range( 100 ):
         print("-------------------------")
         randBlock = TetrixBlock.getRandBlock()
         print(" Got Block: " + randBlock.getBlockName())
-        blockMovement = ai.getMovementByAi( tetrixContainer, randBlock )
+        blockMovement = ai.getMovementByAi( tetrisContainer, randBlock )
         if blockMovement != None:
-            tetrixContainer.putBlockInContainer( blockMovement.getPutPos() )
-            tetrixContainer.printContainer()
-            tetrixContainer.printContainerState()
+            tetrisContainer.putBlockInContainer( blockMovement.getPutPos() )
+            tetrisContainer.printContainer()
+            tetrisContainer.printContainerState()
         else:
             print("------ Game Over ------")
             break

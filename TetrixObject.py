@@ -23,8 +23,8 @@ class PutPositionState:
         return max( [ row in ( row, col ) in self._putPos ] )
 
 class BlockMovement:
-    def __init__( self, tetrixBlock ):
-        self._tetrixBlock = tetrixBlock
+    def __init__( self, tetrisBlock ):
+        self._tetrisBlock = tetrisBlock
         self._hDelta = 0         # horizontal delta( range {0,N} ) from the origin
         self._rotationCount = 0  # clockwise
         self._putPos = ()
@@ -195,7 +195,7 @@ class TetrixContainer:
         print("combo = " + str( self.combo ))
 
 class TetrixBlock:
-    # the orders are meaningful, the first one is initial coordinate in the ordinary tetrix game,
+    # the orders are meaningful, the first one is initial coordinate in the ordinary tetris game,
     # the followings stands for rotating clockwise
     BLOCK_I = ( ( ( 0, 0 ), ( 0, 1 ), ( 0, 2 ), ( 0, 3 ) ),
                 ( ( 0, 0 ), ( 1, 0 ), ( 2, 0 ), ( 3, 0 ) ) )

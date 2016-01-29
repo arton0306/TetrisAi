@@ -13,18 +13,18 @@ class TetrixAiMultiBlock:
     # this function will return ( movement, score )
     # where movement is a list of BlockMovement
     # where score is the score of the movement and it is the highest among all possible move
-    def getBlockQueueMovementAndScore( self, containerOrigin, tetrixBlockQueue ):
+    def getBlockQueueMovementAndScore( self, containerOrigin, tetrisBlockQueue ):
         returnScore = 0
 
         maxScore = -1000000
         isValidMoveExsit = False
 
-        if len( tetrixBlockQueue ) == 0:
+        if len( tetrisBlockQueue ) == 0:
             return ( [], None )
         else:
             returnMove = []
-            firstBlockMove = BlockMovement( tetrixBlockQueue[0] )
-            for ( aDirection, aFallingBlock ) in enumerate( tetrixBlockQueue[0].getAllDirectionPos() ):
+            firstBlockMove = BlockMovement( tetrisBlockQueue[0] )
+            for ( aDirection, aFallingBlock ) in enumerate( tetrisBlockQueue[0].getAllDirectionPos() ):
                 for hDelta in range( containerOrigin.getColumnCount() ):
                     # aFixBlock has 4 point and can not move but fall down
                     aFixBlock = [( row, col + hDelta ) for ( row, col ) in aFallingBlock]
@@ -33,10 +33,10 @@ class TetrixAiMultiBlock:
                         isValidMoveExsit = True
                         containerAfterPut = containerOrigin.getCopyContainer()
                         containerAfterPut.putBlockInContainer( putState.getPos() )
-                        ( restMove, restScore ) = self.getBlockQueueMovementAndScore( containerAfterPut, tetrixBlockQueue[1:] )
+                        ( restMove, restScore ) = self.getBlockQueueMovementAndScore( containerAfterPut, tetrisBlockQueue[1:] )
                         if restScore == None:
                             scoreAtThisPut = self.getScore( containerOrigin, containerAfterPut, True )
-                        elif len( tetrixBlockQueue[1:] ) == 0:
+                        elif len( tetrisBlockQueue[1:] ) == 0:
                             scoreAtThisPut = self.getScore( containerOrigin, containerAfterPut, True ) + restScore
                         else:
                             scoreAtThisPut = self.getScore( containerOrigin, containerAfterPut, False ) + restScore
@@ -118,7 +118,7 @@ class GeneAlgo:
             print("%7.3f, " % (float(gene)), end="")
         print(" ]")
         blockCount = 1002
-        tetrixContainer = TetrixContainer()
+        tetrisContainer = TetrixContainer()
         ai = TetrixAiMultiBlock()
         ai.userPara = aChromosome
 
@@ -130,10 +130,10 @@ class GeneAlgo:
         # play!
         totalCombo = 0
         for i in range( blockCount - 1 ):
-            (blockMovement, score) = ai.getBlockQueueMovementAndScore( tetrixContainer, inputBlock[i:i+2] )
+            (blockMovement, score) = ai.getBlockQueueMovementAndScore( tetrisContainer, inputBlock[i:i+2] )
             if score != None:
-                tetrixContainer.putBlockInContainer( blockMovement[0].getPutPos() )
-                totalCombo += tetrixContainer.combo
+                tetrisContainer.putBlockInContainer( blockMovement[0].getPutPos() )
+                totalCombo += tetrisContainer.combo
             else:
                 break
 
@@ -204,8 +204,8 @@ class GeneAlgo:
         f.close()
 
 def play():
-    tetrixContainer = TetrixContainer()
-    tetrixContainer.printContainer()
+    tetrisContainer = TetrixContainer()
+    tetrisContainer.printContainer()
     ai = TetrixAiMultiBlock()
 
     # produce block sequence
@@ -218,12 +218,12 @@ def play():
     for i in range( 1999 ):
         print("-------------------------")
         print(" Got Block: " + inputBlock[i].getBlockName() + "\t Next Block: " + inputBlock[i + 1].getBlockName())
-        (blockMovement, score) = ai.getBlockQueueMovementAndScore( tetrixContainer, inputBlock[i:i+2] )
+        (blockMovement, score) = ai.getBlockQueueMovementAndScore( tetrisContainer, inputBlock[i:i+2] )
         if score != None:
-            tetrixContainer.putBlockInContainer( blockMovement[0].getPutPos() )
-            tetrixContainer.printContainer()
-            tetrixContainer.printContainerState()
-            totalCombo += tetrixContainer.combo
+            tetrisContainer.putBlockInContainer( blockMovement[0].getPutPos() )
+            tetrisContainer.printContainer()
+            tetrisContainer.printContainerState()
+            totalCombo += tetrisContainer.combo
         else:
             break
     print("------ Game Over ------")

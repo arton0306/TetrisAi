@@ -2,7 +2,7 @@ import pyscreenshot as ImageGrab
 import time
 
 class BlockFetcher:
-    # (x, y) The position measure by opening tetrix_battle in firefox
+    # (x, y) The position measure by opening tetris_battle in firefox
     # put the window to left-hand-side and scroll to top
     #CANDIDATE_POINT = ( 340, 525 )
     # block RGB at CANDIDATE_POINT
@@ -14,7 +14,7 @@ class BlockFetcher:
     #BLOCK_J = (53, 95, 178)
     #BLOCK_L = (204, 116, 58)
 
-    # (x, y) The position measure by opening tetrix_battle in chrome
+    # (x, y) The position measure by opening tetris_battle in chrome
     # put the window to left-hand-side and scroll to top
 
     # at home

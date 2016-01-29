@@ -5,11 +5,11 @@ This is designed for fun and to test genetic algorithm.
 There are 2 versions of AI.
 
 1. Simple AI
-  - Setting AI parameters manually, and just considering current tetrix piece.
+  - Setting AI parameters manually, and just considering current tetris piece.
   - Only 2 files: TetrixAi.py and TetrixObject.py, < 400 lines totally.
   - Run: _python3 TetrixAi.py_
 2. Smart AI
-  - Trainning AI parameters with genetic algorithm, and considering current and next tetrix pieces.
+  - Trainning AI parameters with genetic algorithm, and considering current and next tetris pieces.
   - Only 2 files: TetrixAiMultiBlock.py and TetrixObject.py, < 600 lines totally.
   - Run: _python3 TetrixAiMultiBlock.py_
   - You can switch to train mode by modified the do_train flag in TetrixAiMultiBlock.py
@@ -51,4 +51,4 @@ combo = 1
 ```
 
 ### Other Files
-The other files are for enabling simple AI to play TetrisBattle in Facebook. Get tetrix piece by screenshot and control the game by send keyboard signal. The game has internal action delay, which might cause some key signal missing issues.
+The other files are for enabling simple AI to play TetrisBattle in Facebook. Get tetris piece by screenshot and control the game by send keyboard signal. The game has internal action delay, which might cause some key signal missing issues.
