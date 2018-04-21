@@ -51,4 +51,4 @@ combo = 1
 ```
 
 ### Other Files
-The other files are for enabling simple AI to play TetrisBattle in Facebook. Get tetris piece by screenshot and control the game by send keyboard signal. The game has internal action delay, which might cause some key signal missing issues.
+The other files are for enabling simple AI to play TetrisBattle in Facebook. It gets next block by looking at the RBG of a hard-coded position of the window of facebook tetrix battle, and move or rotate the block by sending keyboard signal with heuristic delay. It has some hard-coded part, so it needs to be tuned if you want to try it. I would like to recommend just to take it as a reference.
